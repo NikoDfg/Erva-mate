@@ -17,13 +17,13 @@
       theme: {
         extend: {
           colors: {
-            'primary': '#007BFF', // Azul principal (inspirado no logo)
+            'primary': '#007BFF', // Azul principal
             'primary-dark': '#0056b3',
-            'secondary': '#DC3545', // Vermelho (inspirado no logo)
-            'accent': '#FFC107', // Amarelo/Dourado (inspirado no logo)
-            'dark': '#1a1a1a', // Fundo escuro
-            'medium-dark': '#2c2c2c', // Fundo de seção
-            'light': '#f8f8f8', // Texto claro
+            'secondary': '#DC3545', // Vermelho
+            'accent': '#FFC107', // Amarelo
+            'dark': '#121212', // Um preto mais profundo
+            'medium-dark': '#1e1e1e', // Fundo de seção
+            'light': '#f8f8f8', 
           },
           fontFamily: {
             'sans': ['Open Sans', 'sans-serif'],
@@ -35,14 +35,43 @@
   </script>
 
   <style>
+    /* === PRELOADER === */
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #121212;
+      z-index: 10000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+    #preloader.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #preloader img {
+      width: 250px;
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0% { opacity: 0.7; transform: scale(0.95); }
+      50% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0.7; transform: scale(0.95); }
+    }
+
     /* === CURSOR PERSONALIZADO === */
     body {
       cursor: none;
+      background: #121212; /* Fundo do body */
     }
     .cursor-dot {
       width: 6px;
       height: 6px;
-      background-color: #FFC107; /* Cor do ponto */
+      background-color: #FFC107;
       position: fixed;
       border-radius: 50%;
       z-index: 9999;
@@ -53,7 +82,7 @@
     .cursor-outline {
       width: 30px;
       height: 30px;
-      border: 2px solid #FFC107; /* Cor da borda */
+      border: 2px solid #FFC107;
       opacity: 0.7;
       position: fixed;
       border-radius: 50%;
@@ -62,39 +91,76 @@
       transform: translate(-50%, -50%);
       transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
     }
-    /* Estado de Hover do Cursor */
     .cursor-hover {
-      width: 50px;
-      height: 50px;
+      width: 60px;
+      height: 60px;
       opacity: 0.3;
       background-color: #FFC107;
     }
-    /* Esconde o cursor personalizado em mobile */
     @media (max-width: 768px) {
-      body {
-        cursor: auto;
-      }
-      .cursor-dot, .cursor-outline {
-        display: none;
-      }
+      body { cursor: auto; }
+      .cursor-dot, .cursor-outline { display: none; }
     }
 
-    /* === TÍTULO COM REVELAÇÃO DE PALAVRAS === */
+    /* === HERO KEN BURNS === */
+    .hero-bg-ken-burns {
+      animation: kenburns 20s infinite ease-out;
+      transform-origin: center center;
+    }
+    @keyframes kenburns {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1) translateX(-5%); }
+      100% { transform: scale(1); }
+    }
+
+    /* === TÍTULO COM REVELAÇÃO === */
     .hero-title-reveal {
-      /* Garante que as palavras filhas fiquem contidas */
       clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
     }
     .hero-title-reveal .word {
       display: inline-block;
-      /* Esconde a palavra filha (que vai "subir") */
       transform: translateY(110%);
       opacity: 0;
       transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.6s ease;
     }
-    /* Estado visível (adicionado via JS) */
     .hero-title-reveal.is-visible .word {
       transform: translateY(0);
       opacity: 1;
+    }
+
+    /* === SEÇÃO DE PORTFÓLIO HORIZONTAL === */
+    /* Container que "pina" e dá espaço para rolar */
+    #portfolio-pin-wrapper {
+      height: 400vh; /* 400vh = 4x a altura da tela. Ajuste para mais/menos projetos */
+      width: 100%;
+      overflow: hidden;
+    }
+    /* Container que fica "sticky" */
+    #portfolio-content {
+      height: 100vh;
+      width: 100%;
+      position: sticky;
+      top: 0;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    /* "Trilho" que se move horizontalmente */
+    #portfolio-track {
+      display: flex;
+      gap: 2.5rem; /* 40px */
+      padding-left: 5vw; /* Começa com uma margem */
+      will-change: transform;
+      /* A largura será definida por JS, mas precisa ser maior que 100vw */
+    }
+    .portfolio-item-horizontal {
+      width: 35vw; /* Largura de cada card */
+      flex-shrink: 0; /* Impede que os cards encolham */
+    }
+    @media (max-width: 768px) {
+      .portfolio-item-horizontal {
+        width: 80vw;
+      }
     }
 
     /* === EFEITO DE HOVER NO PORTFÓLIO === */
@@ -112,68 +178,46 @@
     .portfolio-card:hover .card-content {
       transform: translateY(0);
     }
-    
-    /* === FILTRAGEM DE PORTFÓLIO === */
-    .portfolio-item {
-      transition: all 0.4s ease-in-out;
-      transform-origin: center;
-      opacity: 1;
-      transform: scale(1);
-    }
-    .portfolio-item.is-hidden {
-      opacity: 0;
-      transform: scale(0.8);
-      /* Para colapsar o espaço no grid */
-      max-height: 0;
-      padding: 0;
-      margin-bottom: -1rem; /* Ajuste para grid gaps */
-      overflow: hidden;
-    }
-    .filter-btn.active {
-      background-color: #FFC107; /* Cor de destaque */
-      color: #1a1a1a;
-    }
 
-    /* Estilo do título da seção (do código original) */
+    /* Estilo do título da seção */
     .section-title::after {
       content: "";
       display: block;
       width: 80px;
       height: 3px;
-      background: #FFC107; /* var(--accent) */
+      background: #FFC107;
       margin: 0.8rem auto;
       border-radius: 2px;
     }
     
-    /* Animação de fade-in (do código original) */
+    /* Animação de fade-in (agora controlada por GSAP) */
     .fade-in-up {
       opacity: 0;
       transform: translateY(30px);
-      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-    }
-    .fade-in-up.is-visible {
-      opacity: 1;
-      transform: translateY(0);
     }
   </style>
 </head>
 
 <body class="font-sans bg-dark text-light antialiased">
 
+  <div id="preloader">
+    <img src="WhatsApp Image 2025-11-09 at 11.07.15.jpeg" alt="Logo MARCAMORFOSE Carregando">
+  </div>
+
   <div class="cursor-dot"></div>
   <div class="cursor-outline"></div>
 
   <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
     <nav class="container mx-auto max-w-6xl px-6 py-4 flex justify-between items-center">
-      <a href="#home" class="font-serif text-2xl font-bold text-light">
+      <a href="#home" class="z-10" data-cursor-hover data-magnetic>
         <img src="WhatsApp Image 2025-11-09 at 11.07.15.jpeg" alt="Logo MARCAMORFOSE" class="h-10 w-auto">
       </a>
 
-      <div class="hidden md:flex items-center space-x-6" data-cursor-hover>
-        <a href="#services" class="font-semibold text-light hover:text-primary transition-colors">Serviços</a>
-        <a href="#portfolio" class="font-semibold text-light hover:text-primary transition-colors">Portfólio</a>
-        <a href="#about" class="font-semibold text-light hover:text-primary transition-colors">Sobre</a>
-        <a href="#contact" class="px-5 py-2 bg-primary text-white font-bold rounded-full text-sm hover:bg-primary-dark transition-all duration-300 transform hover:scale-105">
+      <div class="hidden md:flex items-center space-x-2">
+        <a href="#services" class="font-semibold text-light hover:text-primary transition-colors py-2 px-4" data-cursor-hover data-magnetic>Serviços</a>
+        <a href="#portfolio" class="font-semibold text-light hover:text-primary transition-colors py-2 px-4" data-cursor-hover data-magnetic>Portfólio</a>
+        <a href="#about" class="font-semibold text-light hover:text-primary transition-colors py-2 px-4" data-cursor-hover data-magnetic>Sobre</a>
+        <a href="#contact" class="px-5 py-2 bg-primary text-white font-bold rounded-full text-sm hover:bg-primary-dark transition-all duration-300 transform hover:scale-105" data-cursor-hover data-magnetic>
           Contato
         </a>
       </div>
@@ -196,18 +240,18 @@
 
   <main>
 
-    <section id="home" class="relative min-h-screen flex items-center justify-center text-center text-white px-6">
+    <section id="home" class="relative min-h-screen flex items-center justify-center text-center text-white px-6 overflow-hidden">
       <div class="absolute inset-0 bg-black/70 z-0"></div>
-      <div class="absolute inset-0 bg-cover bg-center z-[-1]" style="background-image: url('[SEU_LINK_IMAGEM_HERO_DESIGN_AQUI]');"></div>
+      <div class="absolute inset-0 bg-cover bg-center z-[-1] hero-bg-ken-burns" style="background-image: url('[SEU_LINK_IMAGEM_HERO_DESIGN_AQUI]');"></div>
       
       <div class="relative z-10 max-w-3xl flex flex-col items-center">
-        <h1 class="font-serif text-4xl md:text-6xl font-bold leading-tight mb-4 hero-title-reveal" id="hero-title">
+        <h1 class="font-serif text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4 hero-title-reveal" id="hero-title">
           Transformando Ideias em Design Impactante
         </h1>
         <p class="text-lg md:text-xl text-gray-200 max-w-2xl mb-8 fade-in-up" style="transition-delay: 400ms;">
           Somos um escritório de design criativo focado em branding, UI/UX e identidade visual que dá vida à sua marca.
         </p>
-        <a href="#portfolio" class="bg-primary text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-primary-dark transition-all duration-300 transform hover:scale-105 shadow-lg fade-in-up" style="transition-delay: 600ms;" data-cursor-hover>
+        <a href="#portfolio" class="bg-primary text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-primary-dark transition-all duration-300 transform hover:scale-105 shadow-lg fade-in-up" style="transition-delay: 600ms;" data-cursor-hover data-magnetic>
           Veja Nossos Projetos
         </a>
       </div>
@@ -215,7 +259,7 @@
 
     <section id="services" class="py-24 bg-medium-dark px-6">
       <div class="container mx-auto max-w-6xl">
-        <h2 class="section-title text-center font-serif text-3xl md:text-4xl text-light mb-16 fade-in-up">
+        <h2 class="section-title text-center font-serif text-3xl md:text-4xl text-light mb-16 fade-in-up" data-parallax="0.1">
           Nossos Serviços
         </h2>
         <div class="grid md:grid-cols-3 gap-8 text-center">
@@ -248,76 +292,67 @@
       </div>
     </section>
 
-    <section id="portfolio" class="py-24 bg-light px-6">
-      <div class="container mx-auto max-w-6xl">
-        <h2 class="section-title text-center font-serif text-3xl md:text-4xl text-primary mb-8 fade-in-up">
+    <section id="portfolio" class="bg-light text-dark pt-24">
+      <div class="container mx-auto max-w-6xl px-6">
+        <h2 class="section-title text-center font-serif text-3xl md:text-4xl text-primary mb-16 fade-in-up" data-parallax="0.1">
           Nosso Portfólio
         </h2>
-        
-        <div id="portfolio-filters" class="flex justify-center flex-wrap gap-4 mb-16 fade-in-up" style="transition-delay: 200ms;" data-cursor-hover>
-          <button class="filter-btn active font-semibold py-2 px-5 rounded-full transition-all duration-300 bg-gray-200 text-gray-800 hover:bg-gray-300" data-filter="all">Todos</button>
-          <button class="filter-btn font-semibold py-2 px-5 rounded-full transition-all duration-300 bg-gray-200 text-gray-800 hover:bg-gray-300" data-filter="branding">Branding</button>
-          <button class="filter-btn font-semibold py-2 px-5 rounded-full transition-all duration-300 bg-gray-200 text-gray-800 hover:bg-gray-300" data-filter="uiux">UI/UX</button>
-          <button class="filter-btn font-semibold py-2 px-5 rounded-full transition-all duration-300 bg-gray-200 text-gray-800 hover:bg-gray-300" data-filter="social">Social Media</button>
-        </div>
+      </div>
 
-        <div id="portfolio-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          
-          <div class="portfolio-item rounded-xl shadow-lg overflow-hidden relative portfolio-card" data-category="branding" data-cursor-hover>
-            <img src="[SEU_LINK_IMAGEM_PROJETO_1_AQUI]" alt="Projeto de Branding" class="w-full h-80 object-cover card-image">
-            <div class="card-content absolute inset-0 p-6 flex flex-col justify-end text-white">
-              <h3 class="font-serif text-2xl font-semibold text-white mb-1">Marca de Café</h3>
-              <p class="text-gray-200">Branding</p>
+      <div id="portfolio-pin-wrapper">
+        <div id="portfolio-content">
+          <div id="portfolio-track">
+            
+            <div class="portfolio-item-horizontal rounded-xl shadow-lg overflow-hidden relative portfolio-card" data-cursor-hover>
+              <img src="[SEU_LINK_IMAGEM_PROJETO_1_AQUI]" alt="Projeto" class="w-full h-full object-cover card-image">
+              <div class="card-content absolute inset-0 p-6 flex flex-col justify-end text-white">
+                <h3 class="font-serif text-2xl font-semibold text-white mb-1">Marca de Café</h3><p class="text-gray-200">Branding</p>
+              </div>
             </div>
-          </div>
-          
-          <div class="portfolio-item rounded-xl shadow-lg overflow-hidden relative portfolio-card" data-category="uiux" data-cursor-hover>
-            <img src="[SEU_LINK_IMAGEM_PROJETO_2_AQUI]" alt="Projeto de Web Design" class="w-full h-80 object-cover card-image">
-            <div class="card-content absolute inset-0 p-6 flex flex-col justify-end text-white">
-              <h3 class="font-serif text-2xl font-semibold text-white mb-1">App de Finanças</h3>
-              <p class="text-gray-200">UI/UX</p>
+            
+            <div class="portfolio-item-horizontal rounded-xl shadow-lg overflow-hidden relative portfolio-card" data-cursor-hover>
+              <img src="[SEU_LINK_IMAGEM_PROJETO_2_AQUI]" alt="Projeto" class="w-full h-full object-cover card-image">
+              <div class="card-content absolute inset-0 p-6 flex flex-col justify-end text-white">
+                <h3 class="font-serif text-2xl font-semibold text-white mb-1">App de Finanças</h3><p class="text-gray-200">UI/UX</p>
+              </div>
             </div>
-          </div>
-          
-          <div class="portfolio-item rounded-xl shadow-lg overflow-hidden relative portfolio-card" data-category="social" data-cursor-hover>
-            <img src="[SEU_LINK_IMAGEM_PROJETO_3_AQUI]" alt="Projeto de Design Digital" class="w-full h-80 object-cover card-image">
-            <div class="card-content absolute inset-0 p-6 flex flex-col justify-end text-white">
-              <h3 class="font-serif text-2xl font-semibold text-white mb-1">Varejo Fashion</h3>
-              <p class="text-gray-200">Social Media</p>
-            </div>
-          </div>
-          
-          <div class="portfolio-item rounded-xl shadow-lg overflow-hidden relative portfolio-card" data-category="branding" data-cursor-hover>
-            <img src="[SEU_LINK_IMAGEM_PROJETO_4_AQUI]" alt="Projeto de Branding" class="w-full h-80 object-cover card-image">
-            <div class="card-content absolute inset-0 p-6 flex flex-col justify-end text-white">
-              <h3 class="font-serif text-2xl font-semibold text-white mb-1">Tech Startup</h3>
-              <p class="text-gray-200">Branding</p>
-            </div>
-          </div>
-          
-          <div class="portfolio-item rounded-xl shadow-lg overflow-hidden relative portfolio-card" data-category="uiux" data-cursor-hover>
-            <img src="[SEU_LINK_IMAGEM_PROJETO_5_AQUI]" alt="Projeto de UI/UX" class="w-full h-80 object-cover card-image">
-            <div class="card-content absolute inset-0 p-6 flex flex-col justify-end text-white">
-              <h3 class="font-serif text-2xl font-semibold text-white mb-1">Site E-commerce</h3>
-              <p class="text-gray-200">UI/UX</sA>
-            </div>
-          </div>
 
-          <div class="portfolio-item rounded-xl shadow-lg overflow-hidden relative portfolio-card" data-category="uiux" data-cursor-hover>
-            <img src="[SEU_LINK_IMAGEM_PROJETO_6_AQUI]" alt="Projeto de UI/UX" class="w-full h-80 object-cover card-image">
-            <div class="card-content absolute inset-0 p-6 flex flex-col justify-end text-white">
-              <h3 class="font-serif text-2xl font-semibold text-white mb-1">Dashboard Analítico</h3>
-              <p class="text-gray-200">UI/UX</p>
+            <div class="portfolio-item-horizontal rounded-xl shadow-lg overflow-hidden relative portfolio-card" data-cursor-hover>
+              <img src="[SEU_LINK_IMAGEM_PROJETO_3_AQUI]" alt="Projeto" class="w-full h-full object-cover card-image">
+              <div class="card-content absolute inset-0 p-6 flex flex-col justify-end text-white">
+                <h3 class="font-serif text-2xl font-semibold text-white mb-1">Varejo Fashion</h3><p class="text-gray-200">Social Media</p>
+              </div>
             </div>
+
+            <div class="portfolio-item-horizontal rounded-xl shadow-lg overflow-hidden relative portfolio-card" data-cursor-hover>
+              <img src="[SEU_LINK_IMAGEM_PROJETO_4_AQUI]" alt="Projeto" class="w-full h-full object-cover card-image">
+              <div class="card-content absolute inset-0 p-6 flex flex-col justify-end text-white">
+                <h3 class="font-serif text-2xl font-semibold text-white mb-1">Tech Startup</h3><p class="text-gray-200">Branding</p>
+              </div>
+            </div>
+
+            <div class="portfolio-item-horizontal rounded-xl shadow-lg overflow-hidden relative portfolio-card" data-cursor-hover>
+              <img src="[SEU_LINK_IMAGEM_PROJETO_5_AQUI]" alt="Projeto" class="w-full h-full object-cover card-image">
+              <div class="card-content absolute inset-0 p-6 flex flex-col justify-end text-white">
+                <h3 class="font-serif text-2xl font-semibold text-white mb-1">Site E-commerce</h3><p class="text-gray-200">UI/UX</sA>
+              </div>
+            </div>
+
+            <div class="portfolio-item-horizontal rounded-xl shadow-lg overflow-hidden relative portfolio-card" data-cursor-hover>
+              <img src="[SEU_LINK_IMAGEM_PROJETO_6_AQUI]" alt="Projeto" class="w-full h-full object-cover card-image">
+              <div class="card-content absolute inset-0 p-6 flex flex-col justify-end text-white">
+                <h3 class="font-serif text-2xl font-semibold text-white mb-1">Dashboard Analítico</h3><p class="text-gray-200">UI/UX</p>
+              </div>
+            </div>
+
           </div>
-          
         </div>
       </div>
     </section>
 
     <section id="about" class="py-24 bg-medium-dark px-6">
       <div class="container mx-auto max-w-6xl">
-        <h2 class="section-title text-center font-serif text-3xl md:text-4xl text-light mb-16 fade-in-up">
+        <h2 class="section-title text-center font-serif text-3xl md:text-4xl text-light mb-16 fade-in-up" data-parallax="0.1">
           Sobre Nós
         </h2>
         <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
@@ -339,28 +374,28 @@
 
     <section id="contact" class="py-24 bg-light text-dark px-6">
       <div class="container mx-auto max-w-4xl">
-        <h2 class="section-title text-center font-serif text-3xl md:text-4xl text-primary mb-16 fade-in-up">
+        <h2 class="section-title text-center font-serif text-3xl md:text-4xl text-primary mb-16 fade-in-up" data-parallax="0.1">
           Fale Conosco
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
           
-          <div class="md:col-span-1 space-y-6 fade-in-up">
+          <div class="md:col-span-1 space-y-8 fade-in-up">
             <div class="flex items-start">
-              <svg class="w-6 h-6 text-primary mt-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-primary mt-1 flex-shrink-0"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
               <div class="ml-4">
                 <h4 class="font-bold text-lg text-dark">Endereço</h4>
                 <p class="text-gray-600">Curitiba - PR, Brasil (Atendemos remotamente)</p>
               </div>
             </div>
              <div class="flex items-start">
-              <svg class="w-6 h-6 text-primary mt-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.211-.998-.552-1.347l-3.465-3.465a2.25 2.25 0 00-3.182 0l-1.99 1.99v-2.19a2.25 2.25 0 00-2.25-2.25h-5.379a2.25 2.25 0 00-2.25 2.25z" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-primary mt-1 flex-shrink-0"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"></path></svg>
               <div class="ml-4">
                 <h4 class="font-bold text-lg text-dark">Whatsapp</h4>
                 <p class="text-gray-600">(41) 99999-9999</p>
               </div>
             </div>
              <div class="flex items-start">
-              <svg class="w-6 h-6 text-primary mt-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-primary mt-1 flex-shrink-0"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
               <div class="ml-4">
                 <h4 class="font-bold text-lg text-dark">Email</h4>
                 <p class="text-gray-600">contato@marcamorfose.com.br</p>
@@ -382,7 +417,7 @@
               <textarea id="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-dark focus:border-transparent" placeholder="Fale um pouco sobre o seu projeto..." data-cursor-hover></textarea>
             </div>
             <div>
-              <button type="submit" class="w-full bg-primary text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-primary-dark transition-all duration-300 transform hover:scale-105 shadow-lg" data-cursor-hover>
+              <button type="submit" class="w-full bg-primary text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-primary-dark transition-all duration-300 transform hover:scale-105 shadow-lg" data-cursor-hover data-magnetic>
                 Enviar Orçamento
               </button>
             </div>
@@ -397,49 +432,116 @@
   <footer class="bg-dark text-white py-16 text-center">
     <div class="container mx-auto px-6">
       <div class="flex justify-center space-x-6 mb-6" data-cursor-hover>
-        <a href="#" class="text-gray-300 hover:text-accent transition-colors">Instagram</a>
+        <a href="#" class="text-gray-300 hover:text-accent transition-colors" data-magnetic>Instagram</a>
         <span class="text-gray-500">|</span>
-        <a href="#" class="text-gray-300 hover:text-accent transition-colors">Behance</a>
+        <a href="#" class="text-gray-300 hover:text-accent transition-colors" data-magnetic>Behance</a>
         <span class="text-gray-500">|</span>
-        <a href="#" class="text-gray-300 hover:text-accent transition-colors">LinkedIn</a>
+        <a href="#" class="text-gray-300 hover:text-accent transition-colors" data-magnetic>LinkedIn</a>
       </div>
       <p class="text-gray-300">&copy; 2025 MARCAMORFOSE Design</p>
       <p class="text-gray-400 text-sm">Design que resolve, marca que fica.</p>
     </div>
   </footer>
 
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-      // === Script do Header com Scroll ===
-      const header = document.getElementById('header');
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-          header.classList.add('bg-dark/95', 'backdrop-blur-lg', 'shadow-md');
-        } else {
-          header.classList.remove('bg-dark/95', 'backdrop-blur-lg', 'shadow-md');
-        }
+      // --- 1. INICIALIZAÇÃO DO GSAP e LENIS (Smooth Scroll) ---
+      gsap.registerPlugin(ScrollTrigger);
+      
+      const lenis = new Lenis({
+        lerp: 0.07, // Quão "suave" é o scroll
+        smoothWheel: true,
       });
 
-      // === Script do Menu Mobile ===
-      const btnMenu = document.getElementById('btn-menu-mobile');
-      const menu = document.getElementById('menu-mobile');
-      const iconOpen = document.getElementById('icon-open');
-      const iconClose = document.getElementById('icon-close');
+      lenis.on('scroll', ScrollTrigger.update);
       
-      const toggleMenu = () => {
-        menu.classList.toggle('hidden');
-        iconOpen.classList.toggle('hidden');
-        iconClose.classList.toggle('hidden');
-        document.body.classList.toggle('overflow-hidden');
-      };
-      
-      btnMenu.addEventListener('click', toggleMenu);
-      menu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', toggleMenu);
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+      gsap.ticker.lagSmoothing(0);
+
+      // --- 2. PRELOADER ---
+      const preloader = document.getElementById('preloader');
+      if (preloader) {
+        // Para um projeto real, use window.onload
+        setTimeout(() => {
+          preloader.classList.add('is-hidden');
+          // Inicia a animação do título DEPOIS que o preloader some
+          document.getElementById('hero-title').classList.add('is-visible');
+        }, 1500); // Simula 1.5s de carregamento
+      }
+
+      // --- 3. ANIMAÇÕES GERAIS (Fade-in e Parallax) ---
+      // Animação fade-in-up
+      const fadeUpElements = document.querySelectorAll('.fade-in-up');
+      fadeUpElements.forEach(el => {
+        gsap.to(el, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 85%', // Ativa quando 85% do topo do elemento entra na tela
+            toggleActions: 'play none none none',
+          }
+        });
       });
 
-      // === Script do CURSOR PERSONALIZADO ===
+      // Animação de Parallax dos títulos
+      const parallaxElements = document.querySelectorAll('[data-parallax]');
+      parallaxElements.forEach(el => {
+        const speed = parseFloat(el.getAttribute('data-parallax')) * 100;
+        gsap.to(el, {
+          y: speed,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1.5, // Efeito "grudado" no scroll
+          }
+        });
+      });
+
+
+      // --- 4. SCROLL HORIZONTAL DO PORTFÓLIO ---
+      const track = document.getElementById('portfolio-track');
+      if (track) {
+        // Calcula a largura total do "trilho"
+        const scrollWidth = track.scrollWidth - window.innerWidth + (window.innerWidth * 0.1); // 0.1 = 10vw de padding
+
+        gsap.to(track, {
+          x: -scrollWidth, // Move o trilho para a esquerda
+          ease: 'none', // Movimento linear
+          scrollTrigger: {
+            trigger: '#portfolio-pin-wrapper',
+            start: 'top top',
+            end: () => `+=${scrollWidth}`, // O fim é baseado na largura calculada
+            pin: true, // "Pina" o wrapper
+            scrub: 1, // Conecta 1:1 com o scroll
+            invalidateOnRefresh: true,
+          }
+        });
+      }
+      
+      // --- 5. TÍTULO DO HERO (REVELAÇÃO) ---
+      const heroTitle = document.getElementById('hero-title');
+      if (heroTitle) {
+        const text = heroTitle.textContent;
+        const words = text.split(' ');
+        heroTitle.innerHTML = words.map((word, i) => 
+          `<span style="transition-delay: ${i * 100}ms" class="word">${word}</span>`
+        ).join(' ');
+        // A classe .is-visible é adicionada pelo preloader
+      }
+
+      // --- 6. CURSOR PERSONALIZADO ---
       const cursorDot = document.querySelector('.cursor-dot');
       const cursorOutline = document.querySelector('.cursor-outline');
       
@@ -466,70 +568,59 @@
         });
       });
 
-      // === Script de REVELAÇÃO DE TEXTO DO HERO ===
-      const heroTitle = document.getElementById('hero-title');
-      if (heroTitle) {
-        // 1. Quebra o texto em palavras e envolve cada uma em um span
-        const text = heroTitle.textContent;
-        const words = text.split(' ');
-        heroTitle.innerHTML = words.map((word, i) => 
-          `<span style="transition-delay: ${i * 100}ms" class="word">${word}</span>`
-        ).join(' ');
-        
-        // 2. Usa IntersectionObserver para ativar quando visível
-        const heroObserver = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible');
-              heroObserver.unobserve(entry.target);
-            }
+      // --- 7. BOTÕES MAGNÉTICOS ---
+      const magneticElements = document.querySelectorAll('[data-magnetic]');
+      magneticElements.forEach(el => {
+        el.addEventListener('mousemove', (e) => {
+          const rect = el.getBoundingClientRect();
+          const x = e.clientX - (rect.left + rect.width / 2);
+          const y = e.clientY - (rect.top + rect.height / 2);
+          
+          gsap.to(el, {
+            x: x * 0.3,
+            y: y * 0.3,
+            duration: 0.8,
+            ease: 'elastic.out(1, 0.3)'
           });
-        }, { threshold: 0.5 });
+        });
         
-        heroObserver.observe(heroTitle);
-      }
+        el.addEventListener('mouseleave', () => {
+          gsap.to(el, {
+            x: 0,
+            y: 0,
+            duration: 0.5,
+            ease: 'power3.out'
+          });
+        });
+      });
 
-      // === Script de FILTRAGEM DO PORTFÓLIO ===
-      const filterButtons = document.querySelectorAll('#portfolio-filters .filter-btn');
-      const portfolioItems = document.querySelectorAll('#portfolio-grid .portfolio-item');
+      // --- 8. HEADER COM SCROLL ---
+      const header = document.getElementById('header');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          header.classList.add('bg-dark/95', 'backdrop-blur-lg', 'shadow-md');
+        } else {
+          header.classList.remove('bg-dark/95', 'backdrop-blur-lg', 'shadow-md');
+        }
+      });
+
+      // --- 9. MENU MOBILE ---
+      const btnMenu = document.getElementById('btn-menu-mobile');
+      const menu = document.getElementById('menu-mobile');
+      const iconOpen = document.getElementById('icon-open');
+      const iconClose = document.getElementById('icon-close');
       
-      filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          const filter = button.getAttribute('data-filter');
-          
-          // Atualiza classe ativa nos botões
-          filterButtons.forEach(btn => btn.classList.remove('active'));
-          button.classList.add('active');
-          
-          // Filtra os itens
-          portfolioItems.forEach(item => {
-            const category = item.getAttribute('data-category');
-            if (filter === 'all' || filter === category) {
-              item.classList.remove('is-hidden');
-            } else {
-              item.classList.add('is-hidden');
-            }
-          });
-        });
+      const toggleMenu = () => {
+        menu.classList.toggle('hidden');
+        iconOpen.classList.toggle('hidden');
+        iconClose.classList.toggle('hidden');
+        document.body.classList.toggle('overflow-hidden');
+      };
+      
+      btnMenu.addEventListener('click', toggleMenu);
+      menu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', toggleMenu);
       });
-
-      // === Script de Animação de Scroll GERAL (fade-in-up) ===
-      const animatedElements = document.querySelectorAll('.fade-in-up');
-      const generalObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            generalObserver.unobserve(entry.target);
-          }
-        });
-      }, {
-        threshold: 0.1
-      });
-
-      animatedElements.forEach(el => {
-        generalObserver.observe(el);
-      });
-
     });
   </script>
 
