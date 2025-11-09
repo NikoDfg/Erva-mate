@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Verde Nobre - Erva-mate premium com tradição, sustentabilidade e o verdadeiro sabor do sul do Brasil.">
+  <title>Verde Nobre Erva-Mate | Premium & Elegante</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'olive': '#4d6b2f',
+            'olive-dark': '#3b5022',
+            'gold': '#d4af37',
+            'earth': '#f8f5ef',
+            'dark': '#2e2e2e',
+          },
+          fontFamily: {
+            'sans': ['Open Sans', 'sans-serif'],
+            'serif': ['Lora', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 3px;
+      background: #d4af37; /* var(--gold) */
+      margin: 0.8rem auto;
+      border-radius: 2px;
+    }
+    
+    /* Animação de Scroll */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    .fade-in-up.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body class="font-sans bg-earth text-dark antialiased">
+
+  <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <nav class="container mx-auto max-w-6xl px-6 py-4 flex justify-between items-center">
+      <a href="#home" class="font-serif text-2xl font-bold text-olive">
+        Verde Nobre
+      </a>
+
+      <div class="hidden md:flex items-center space-x-6">
+        <a href="#features" class="font-semibold text-dark hover:text-olive transition-colors">Diferenciais</a>
+        <a href="#products" class="font-semibold text-dark hover:text-olive transition-colors">Produtos</a>
+        <a href="#about" class="font-semibold text-dark hover:text-olive transition-colors">Sobre</a>
+        <a href="#contact" class="px-5 py-2 bg-olive text-white font-bold rounded-full text-sm hover:bg-olive-dark transition-all duration-300 transform hover:scale-105">
+          Contato
+        </a>
+      </div>
+
+      <button id="btn-menu-mobile" class="md:hidden text-dark focus:outline-none z-50">
+        <svg id="icon-open" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+        <svg id="icon-close" class="w-7 h-7 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+    </nav>
+    
+    <div id="menu-mobile" class="hidden md:hidden absolute top-0 left-0 w-full h-screen bg-white/95 backdrop-blur-lg flex flex-col items-center justify-center space-y-8 text-xl z-40">
+      <a href="#features" class="font-semibold text-dark hover:text-olive transition-colors">Diferenciais</a>
+      <a href="#products" class="font-semibold text-dark hover:text-olive transition-colors">Produtos</a>
+      <a href="#about" class="font-semibold text-dark hover:text-olive transition-colors">Sobre</a>
+      <a href="#contact" class="px-6 py-3 bg-olive text-white font-bold rounded-full hover:bg-olive-dark transition-all duration-300 transform hover:scale-105">
+        Contato
+      </a>
+    </div>
+  </header>
+
+  <main>
+
+    <section id="home" class="relative min-h-screen flex items-center justify-center text-center text-white px-6">
+      <div class="absolute inset-0 bg-black/60 z-0"></div>
+      <div class="absolute inset-0 bg-cover bg-center z-[-1]" style="background-image: url('https://images.unsplash.com/photo-1588921381394-81e8f20b3367?auto=format&fit=crop&w=1920&q=80');"></div>
+      
+      <div class="relative z-10 max-w-3xl flex flex-col items-center">
+        <h1 class="font-serif text-4xl md:text-6xl font-bold leading-tight mb-4 fade-in-up">
+          A Tradição que Inspira o Sabor do Sul
+        </h1>
+        <p class="text-lg md:text-xl text-gray-200 max-w-2xl mb-8 fade-in-up" style="transition-delay: 200ms;">
+          Erva-mate premium cultivada com respeito à natureza e às raízes do chimarrão gaúcho.
+        </p>
+        <a href="#about" class="bg-olive text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-olive-dark transition-all duration-300 transform hover:scale-105 shadow-lg fade-in-up" style="transition-delay: 400ms;">
+          Conheça Nossa História
+        </a>
+      </div>
+    </section>
+
+    <section id="features" class="py-24 bg-earth px-6">
+      <div class="container mx-auto max-w-6xl">
+        <h2 class="section-title text-center font-serif text-3xl md:text-4xl text-olive mb-16 fade-in-up">
+          Nossos Diferenciais
+        </h2>
+        <div class="grid md:grid-cols-3 gap-8 text-center">
+          
+          <div class="bg-white p-8 rounded-xl shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl fade-in-up">
+            <div class="flex justify-center mb-4">
+              <svg class="w-12 h-12 text-olive" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-6.364-.386l1.591-1.591M3 12h2.25m.386-6.364l1.591 1.591" /></svg>
+            </div>
+            <h3 class="font-serif text-2xl font-semibold text-dark mb-2">Erva Selecionada</h3>
+            <p class="text-gray-600">Folhas nobres colhidas no ponto ideal para garantir sabor e aroma excepcionais.</p>
+          </div>
+          
+          <div class="bg-white p-8 rounded-xl shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl fade-in-up" style="transition-delay: 200ms;">
+            <div class="flex justify-center mb-4">
+              <svg class="w-12 h-12 text-olive" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" /></svg>
+            </div>
+            <h3 class="font-serif text-2xl font-semibold text-dark mb-2">Produção Sustentável</h3>
+            <p class="text-gray-600">Respeito ao meio ambiente e às comunidades locais em cada etapa.</p>
+          </div>
+          
+          <div class="bg-white p-8 rounded-xl shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl fade-in-up" style="transition-delay: 400ms;">
+            <div class="flex justify-center mb-4">
+              <svg class="w-12 h-12 text-olive" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.504-1.125-1.125-1.125h-6.75c-.621 0-1.125.504-1.125 1.125V18.75m9 0h-9" /></svg>
+            </div>
+            <h3 class="font-serif text-2xl font-semibold text-dark mb-2">Sabor Autêntico</h3>
+            <p class="text-gray-600">Tradição artesanal que mantém viva a cultura e o prazer do chimarrão.</p>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+    <section id="products" class="py-24 bg-white px-6">
+      <div class="container mx-auto max-w-6xl">
+        <h2 class="section-title text-center font-serif text-3xl md:text-4xl text-olive mb-16 fade-in-up">
+          Nossos Produtos
+        </h2>
+        <div class="grid md:grid-cols-3 gap-8">
+        
+          <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-2 fade-in-up">
+            <img src="https://images.unsplash.com/photo-1604335399108-0d5c71a811b8?auto=format&fit=crop&w=800&q=80" alt="Erva Tradicional" class="w-full h-64 object-cover">
+            <div class="p-6">
+              <h3 class="font-serif text-2xl font-semibold text-olive mb-2">Tradicional</h3>
+              <p class="text-gray-600">O sabor clássico da erva-mate gaúcha, ideal para o chimarrão diário.</p>
+            </div>
+          </div>
+          
+          <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-2 fade-in-up" style="transition-delay: 200ms;">
+            <img src="https://images.unsplash.com/photo-1590213568972-731c61a5b67e?auto=format&fit=crop&w=800&q=80" alt="Erva Premium" class="w-full h-64 object-cover">
+            <div class="p-6">
+              <h3 class="font-serif text-2xl font-semibold text-olive mb-2">Premium</h3>
+              <p class="text-gray-600">Blend especial das melhores folhas para quem busca um sabor refinado.</p>
+            </div>
+          </div>
+          
+          <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-2 fade-in-up" style="transition-delay: 400ms;">
+            <img src="https://images.unsplash.com/photo-1628102302172-563d33973c78?auto=format&fit=crop&w=800&q=80" alt="Erva Orgânica" class="w-full h-64 object-cover">
+            <div class="p-6">
+              <h3 class="font-serif text-2xl font-semibold text-olive mb-2">Orgânica</h3>
+              <p class="text-gray-600">Colhida de forma natural e sem agrotóxicos, para quem valoriza pureza e sustentabilidade.</p>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="py-24 bg-earth px-6">
+      <div class="container mx-auto max-w-6xl">
+        <h2 class="section-title text-center font-serif text-3xl md:text-4xl text-olive mb-16 fade-in-up">
+          Nossa História
+        </h2>
+        <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
+          <div class="w-full md:w-1/2 flex-shrink-0 fade-in-up">
+            <img src="https://images.unsplash.com/photo-1627471963212-0050c74f5112?auto=format&fit=crop&w=900&q=80" alt="Colheita de Erva Mate" class="rounded-xl shadow-xl w-full h-full object-cover">
+          </div>
+          <div class="w-full md:w-1/2 fade-in-up" style="transition-delay: 200ms;">
+            <h3 class="font-serif text-3xl font-semibold text-olive mb-6">De nossas raízes nasce o sabor que une gerações</h3>
+            <p class="text-gray-700 text-lg mb-4">
+              Desde 1985, a Verde Nobre cultiva erva-mate com respeito à terra e dedicação à tradição. Cada folha que colhemos representa o orgulho e a essência do sul do Brasil.
+            </V>
+            <p class="text-gray-700 text-lg">
+              Nossa missão é levar até você não apenas um produto, mas uma experiência cultural, um momento de pausa e conexão.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="py-24 bg-white px-6">
+      <div class="container mx-auto max-w-4xl">
+        <h2 class="section-title text-center font-serif text-3xl md:text-4xl text-olive mb-16 fade-in-up">
+          Fale Conosco
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          
+          <div class="md:col-span-1 space-y-6 fade-in-up">
+            <div class="flex items-start">
+              <svg class="w-6 h-6 text-olive mt-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+              <div class="ml-4">
+                <h4 class="font-bold text-lg text-dark">Endereço</h4>
+                <p class="text-gray-600">Porto Alegre - RS, Brasil</p>
+              </div>
+            </div>
+             <div class="flex items-start">
+              <svg class="w-6 h-6 text-olive mt-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.211-.998-.552-1.347l-3.465-3.465a2.25 2.25 0 00-3.182 0l-1.99 1.99v-2.19a2.25 2.25 0 00-2.25-2.25h-5.379a2.25 2.25 0 00-2.25 2.25z" /></svg>
+              <div class="ml-4">
+                <h4 class="font-bold text-lg text-dark">Telefone</h4>
+                <p class="text-gray-600">(51) 99999-9999</p>
+              </div>
+            </div>
+             <div class="flex items-start">
+              <svg class="w-6 h-6 text-olive mt-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
+              <div class="ml-4">
+                <h4 class="font-bold text-lg text-dark">Email</h4>
+                <p class="text-gray-600">contato@verdenobre.com.br</p>
+              </div>
+            </div>
+          </div>
+          
+          <form class="md:col-span-2 space-y-6 fade-in-up" style="transition-delay: 200ms;">
+            <div>
+              <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nome</label>
+              <input type="text" id="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-olive-dark focus:border-transparent" placeholder="Seu nome completo">
+            </div>
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-olive-dark focus:border-transparent" placeholder="seuemail@exemplo.com">
+            </div>
+            <div>
+              <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Mensagem</label>
+              <textarea id="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-olive-dark focus:border-transparent" placeholder="Como podemos ajudar?"></textarea>
+            </div>
+            <div>
+              <button type="submit" class="w-full bg-olive text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-olive-dark transition-all duration-300 transform hover:scale-105 shadow-lg">
+                Enviar Mensagem
+              </button>
+            </div>
+          </form>
+          
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-olive text-white py-16 text-center">
+    <div class="container mx-auto px-6">
+      <div class="flex justify-center space-x-6 mb-6">
+        <a href="#" class="text-gray-300 hover:text-gold transition-colors">Instagram</a>
+        <span class="text-gray-500">|</span>
+        <a href="#" class="text-gray-300 hover:text-gold transition-colors">Facebook</a>
+      </div>
+      <p class="text-gray-300">&copy; 2025 Verde Nobre Erva-Mate</p>
+      <p class="text-gray-400 text-sm">Feito com 🌿, tradição e código de ponta.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // === Script do Header com Scroll ===
+      const header = document.getElementById('header');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          header.classList.add('bg-white/95', 'backdrop-blur-lg', 'shadow-md');
+        } else {
+          header.classList.remove('bg-white/95', 'backdrop-blur-lg', 'shadow-md');
+        }
+      });
+
+      // === Script do Menu Mobile ===
+      const btnMenu = document.getElementById('btn-menu-mobile');
+      const menu = document.getElementById('menu-mobile');
+      const iconOpen = document.getElementById('icon-open');
+      const iconClose = document.getElementById('icon-close');
+      
+      const toggleMenu = () => {
+        menu.classList.toggle('hidden');
+        iconOpen.classList.toggle('hidden');
+        iconClose.classList.toggle('hidden');
+        document.body.classList.toggle('overflow-hidden'); // Impede scroll do body
+      };
+      
+      btnMenu.addEventListener('click', toggleMenu);
+      // Fecha o menu se um link for clicado
+      menu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', toggleMenu);
+      });
+
+      // === Script de Animação de Scroll (Intersection Observer) ===
+      const animatedElements = document.querySelectorAll('.fade-in-up');
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            // Opcional: parar de observar depois que animou
+            // observer.unobserve(entry.TAlvo); 
+          }
+        });
+      }, {
+        threshold: 0.1 // Ativa quando 10% do elemento está visível
+      });
+
+      animatedElements.forEach(el => {
+        observer.observe(el);
+      });
+
+    });
+  </script>
+
+</body>
+</html>
